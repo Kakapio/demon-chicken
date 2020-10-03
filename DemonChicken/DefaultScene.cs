@@ -1,3 +1,4 @@
+using DemonChicken;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Nez;
@@ -19,9 +20,10 @@ namespace DemonChicken
 #endif 
 
             var logo = Content.LoadTexture(@"Content\Textures\nez-logo-black.png");
-            CreateEntity("logo")
+            CreateEntity("Player")
                 .SetPosition(Screen.Center)
-                .AddComponent(new SpriteRenderer(logo));
+                .AddComponent(new SpriteRenderer(logo))
+                .AddComponent(new PlayerController());
         }
     }
 }
