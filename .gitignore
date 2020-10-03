@@ -1,0 +1,13 @@
+.DS_Store
+.vs
+FNA/
+ImGui.NET/
+fnalibs/
+DemonChicken/bin
+DemonChicken/obj
+DemonChicken/CompiledContent/bin
+DemonChicken/CompiledContent/obj
+.mgstats
+imgui.ini
+imgui_log.txt
+
