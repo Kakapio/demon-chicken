@@ -62,7 +62,7 @@ namespace DemonChicken
                 animationSprites[0],
                 animationSprites[1],
                 animationSprites[2]
-            }, 9f));
+            }, 8f));
 
             animator.AddAnimation(PlayerState.Running.ToString(), new SpriteAnimation(new[]
             {
@@ -131,7 +131,7 @@ namespace DemonChicken
         {
             if (attackInput.IsPressed && timeSinceAttack >= AttackCooldown)
             {
-                //TODO: 
+                //TODO: Add attack system
             }
         }
 
@@ -166,6 +166,7 @@ namespace DemonChicken
                 animator.Play(PlayerState.Running.ToString(), SpriteAnimator.LoopMode.Loop);
             }
 
+            //Flip sprites.
             Vector2 moveDir = new Vector2(horizontalInput.Value, verticalInput.Value);
 
             if (moveDir.X < 0)

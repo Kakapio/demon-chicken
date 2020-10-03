@@ -10,7 +10,7 @@ namespace DemonChicken
     {
         public override void Initialize()
         {
-            SetDesignResolution(512, 288, Scene.SceneResolutionPolicy.ShowAllPixelPerfect);
+            SetDesignResolution(384, 216, Scene.SceneResolutionPolicy.ShowAllPixelPerfect);
 #if debug
             CreateEntity("demo imgui draw commands")
                 .SetPosition(new Vector2(150, 150))
