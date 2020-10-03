@@ -19,7 +19,7 @@ namespace DemonChicken
 
     class PlayerController : Component, IUpdatable
     {
-        public float MoveSpeed { get; set; } = 350;
+        public float MoveSpeed { get; set; } = 200;
         public float AttackCooldown { get; set; } = 0.2f;
 
         private PlayerState playerState;
@@ -157,13 +157,24 @@ namespace DemonChicken
         /// </summary>
         private void UpdateAnimation()
         {
-            if (playerState == PlayerState.Idle)
+            if (playerState == PlayerState.Idle && !animator.IsAnimationActive(PlayerState.Idle.ToString()))
             {
                 animator.Play(PlayerState.Idle.ToString(), SpriteAnimator.LoopMode.Loop);
             }
-            else if (playerState == PlayerState.Running)
+            else if (playerState == PlayerState.Running && !animator.IsAnimationActive(PlayerState.Running.ToString()))
             {
                 animator.Play(PlayerState.Running.ToString(), SpriteAnimator.LoopMode.Loop);
+            }
+
+            Vector2 moveDir = new Vector2(horizontalInput.Value, verticalInput.Value);
+
+            if (moveDir.X < 0)
+            {
+                animator.FlipX = false;
+            }
+            else if (moveDir.X > 0)
+            {
+                animator.FlipX = true;
             }
         }
     }

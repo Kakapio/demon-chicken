@@ -10,8 +10,7 @@ namespace DemonChicken
     {
         public override void Initialize()
         {
-            SetDesignResolution(Screen.Width, Screen.Height, Scene.SceneResolutionPolicy.None);
-
+            SetDesignResolution(512, 288, Scene.SceneResolutionPolicy.ShowAllPixelPerfect);
 #if debug
             CreateEntity("demo imgui draw commands")
                 .SetPosition(new Vector2(150, 150))
@@ -19,9 +18,8 @@ namespace DemonChicken
                 .AddComponent(new PrototypeSpriteRenderer(20, 20));
 #endif 
 
-            var logo = Content.LoadTexture(@"Content\Textures\nez-logo-black.png");
             CreateEntity("Player")
-                .SetPosition(Screen.Center)
+                .SetPosition(Vector2.Zero)
                 .AddComponent(new PlayerController());
         }
     }

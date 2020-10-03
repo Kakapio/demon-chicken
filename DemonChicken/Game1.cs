@@ -15,6 +15,9 @@ namespace DemonChicken
         {
             base.Initialize();
 
+            Screen.IsFullscreen = true;
+            Screen.ApplyChanges();
+
             Scene = new DefaultScene();
 
 #if DEBUG
