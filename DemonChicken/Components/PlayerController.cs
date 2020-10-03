@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Nez;
 using Nez.Sprites;
+using Nez.Textures;
 
 namespace DemonChicken
 {
@@ -18,9 +19,13 @@ namespace DemonChicken
 
     class PlayerController : Component, IUpdatable
     {
-        public float MoveSpeed { get; set; } = 175f;
+        public float MoveSpeed { get; set; } = 350;
+        public float AttackCooldown { get; set; } = 0.2f;
 
+        private PlayerState playerState;
+        private float timeSinceAttack;
         private SubpixelVector2 subPixelVector = new SubpixelVector2();
+
         private Keys leftKey = Keys.A;
         private Keys rightKey = Keys.D;
         private Keys upKey = Keys.W;
@@ -41,6 +46,31 @@ namespace DemonChicken
             collider = Entity.AddComponent(new BoxCollider());
 
             SetupInput();
+            SetupAnimations();
+        }
+
+        /// <summary>
+        /// Add animations to SpriteAnimator.
+        /// </summary>
+        private void SetupAnimations()
+        {
+            var atlasTexture = Entity.Scene.Content.LoadTexture(@"Content\Textures\DemonChicken.png");
+            var animationSprites = Sprite.SpritesFromAtlas(atlasTexture, 25, 31).ToArray();
+
+            animator.AddAnimation(PlayerState.Idle.ToString(), new SpriteAnimation(new[]
+            {
+                animationSprites[0],
+                animationSprites[1],
+                animationSprites[2]
+            }, 9f));
+
+            animator.AddAnimation(PlayerState.Running.ToString(), new SpriteAnimation(new[]
+            {
+                animationSprites[3],
+                animationSprites[4],
+                animationSprites[5],
+                animationSprites[6]
+            }, 10f));
         }
 
         public override void OnRemovedFromEntity()
@@ -54,7 +84,11 @@ namespace DemonChicken
 
         public void Update()
         {
+            timeSinceAttack += Time.DeltaTime;
+
             Move();
+            UpdateState();
+            UpdateAnimation();
         }
 
         /// <summary>
@@ -91,6 +125,46 @@ namespace DemonChicken
             mover.CalculateMovement(ref movement, out CollisionResult res);
             subPixelVector.Update(ref movement);
             mover.ApplyMovement(movement);
+        }
+
+        private void PollAttacks()
+        {
+            if (attackInput.IsPressed && timeSinceAttack >= AttackCooldown)
+            {
+                //TODO: 
+            }
+        }
+
+        /// <summary>
+        /// Update the player's state depending on current input.
+        /// </summary>
+        private void UpdateState()
+        {
+            Vector2 moveDir = new Vector2(horizontalInput.Value, verticalInput.Value);
+
+            if (moveDir != Vector2.Zero)
+            {
+                playerState = PlayerState.Running;
+            }
+            else
+            {
+                playerState = PlayerState.Idle;
+            }
+        }
+
+        /// <summary>
+        /// Play the proper animation according to the player's state.
+        /// </summary>
+        private void UpdateAnimation()
+        {
+            if (playerState == PlayerState.Idle)
+            {
+                animator.Play(PlayerState.Idle.ToString(), SpriteAnimator.LoopMode.Loop);
+            }
+            else if (playerState == PlayerState.Running)
+            {
+                animator.Play(PlayerState.Running.ToString(), SpriteAnimator.LoopMode.Loop);
+            }
         }
     }
 }

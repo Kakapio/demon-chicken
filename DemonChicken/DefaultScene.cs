@@ -22,7 +22,6 @@ namespace DemonChicken
             var logo = Content.LoadTexture(@"Content\Textures\nez-logo-black.png");
             CreateEntity("Player")
                 .SetPosition(Screen.Center)
-                .AddComponent(new SpriteRenderer(logo))
                 .AddComponent(new PlayerController());
         }
     }

@@ -91,6 +91,9 @@
       <Content Remove="Content\Textures\nez-logo-black.png" />
     </ItemGroup>
     <ItemGroup>
+      <None Remove="Content\Textures\DemonChicken.png" />
+    </ItemGroup>
+    <ItemGroup>
       <Folder Include="CompiledContent\" />
     </ItemGroup>
     <ItemGroup>
