@@ -17,8 +17,8 @@ namespace DemonChicken
             
 #if RELEASE
 
-	        Screen.IsFullscreen = true;
-			Screen.ApplyChanges();
+	        //Screen.IsFullscreen = true;
+			//Screen.ApplyChanges();
 
 #endif
             Scene = new DefaultScene();

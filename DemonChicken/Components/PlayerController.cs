@@ -44,7 +44,9 @@ namespace DemonChicken
             mover = Entity.AddComponent(new Mover());
             animator = Entity.AddComponent(new SpriteAnimator());
             collider = Entity.AddComponent(new BoxCollider());
-
+            
+            animator.RenderLayer = 0;
+            
             SetupInput();
             SetupAnimations();
         }
