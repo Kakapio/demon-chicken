@@ -31,7 +31,7 @@ namespace DemonChicken
             Camera.UpdateOrder = 1;
 
             var tilemap = CreateEntity("tilemap");
-            var mapData = Content.LoadTiledMap(@"Content\Tilemaps\SexChamber.tmx");
+            var mapData = Content.LoadTiledMap(@"Content\Tilemaps\SexChamber.tm");
             var tiledMapRenderer = tilemap.AddComponent(new TiledMapRenderer(mapData, "Walls", true));
             tiledMapRenderer.SetLayersToRender(new[] {"Walls", "Floor"});
 
