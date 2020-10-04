@@ -30,6 +30,9 @@
             <Link>Content/nez/textures/%(RecursiveDir)%(Filename)%(Extension)</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
+        <Content Update="Content\Tilemaps\SexChamber.tmx">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
     
     <!-- Include the Content directory (except for .fx files, since we use .fxb at runtime) -->
@@ -88,18 +91,10 @@
         </Content>
     </ItemGroup>
     <ItemGroup>
-      <Content Remove="Content\Textures\nez-logo-black.png" />
-    </ItemGroup>
-    <ItemGroup>
       <None Remove="Content\Textures\DemonChicken.png" />
     </ItemGroup>
     <ItemGroup>
       <Folder Include="CompiledContent\" />
-    </ItemGroup>
-    <ItemGroup>
-      <None Update="Content\Textures\nez-logo-black.png">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
     </ItemGroup>
 </Project>
 

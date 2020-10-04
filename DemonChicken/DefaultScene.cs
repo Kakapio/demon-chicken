@@ -10,7 +10,11 @@ namespace DemonChicken
     {
         public override void Initialize()
         {
-            SetDesignResolution(512, 288, Scene.SceneResolutionPolicy.ShowAllPixelPerfect);
+            base.Initialize();
+            
+            //Set internal game resolution and then set window resolution
+            SetDesignResolution(480, 270, Scene.SceneResolutionPolicy.ShowAllPixelPerfect);
+            Screen.SetSize(480 * 4, 270 * 4);
 #if debug
             CreateEntity("demo imgui draw commands")
                 .SetPosition(new Vector2(150, 150))
@@ -18,9 +22,21 @@ namespace DemonChicken
                 .AddComponent(new PrototypeSpriteRenderer(20, 20));
 #endif 
 
-            CreateEntity("Player")
-                .SetPosition(Vector2.Zero)
-                .AddComponent(new PlayerController());
+            var player = CreateEntity("Player");
+                player.SetPosition(100, 100)
+                    .AddComponent(new PlayerController());
+            player.UpdateOrder = 0;
+
+            Camera.AddComponent(new FollowCamera(player));
+            Camera.GetComponent<FollowCamera>().FollowLerp = 0.02f;
+            Camera.UpdateOrder = 1;
+
+            var tilemap = CreateEntity("tilemap");
+            var mapData = Content.LoadTiledMap(@"Content\Tilemaps\SexChamber.tmx");
+            var tiledMapRenderer = tilemap.AddComponent(new TiledMapRenderer(mapData, "Walls", true));
+            tiledMapRenderer.SetLayersToRender(new[] {"Walls", "Floor"});
+
+            tiledMapRenderer.RenderLayer = 10;
         }
     }
 }

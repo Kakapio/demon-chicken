@@ -14,10 +14,13 @@ namespace DemonChicken
         override protected void Initialize()
         {
             base.Initialize();
+            
+#if RELEASE
 
-            Screen.IsFullscreen = true;
-            Screen.ApplyChanges();
+	        //Screen.IsFullscreen = true;
+			//Screen.ApplyChanges();
 
+#endif
             Scene = new DefaultScene();
 
 #if DEBUG
