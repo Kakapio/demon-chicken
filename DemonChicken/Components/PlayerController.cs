@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 using Nez;
 using Nez.Sprites;
 using Nez.Textures;
+using Nez.UI;
 
 namespace DemonChicken
 {
@@ -30,16 +31,17 @@ namespace DemonChicken
         private float timeSinceAttack;
         private SubpixelVector2 subPixelVector = new SubpixelVector2();
 
-        private Keys leftKey = Keys.A;
-        private Keys rightKey = Keys.D;
-        private Keys upKey = Keys.W;
-        private Keys downKey = Keys.S;
+        private Keys leftKey = Keys.Left;
+        private Keys rightKey = Keys.Right;
+        private Keys upKey = Keys.Up;
+        private Keys downKey = Keys.Down;
         private VirtualButton attackInput;
         private VirtualIntegerAxis horizontalInput;
         private VirtualIntegerAxis verticalInput;
         private Mover mover;
         private SpriteAnimator animator;
-        private Collider collider;
+        private BoxCollider movementCollider;
+        private CircleCollider interactableCollider;
         private Health health;
         private CollisionResult collisionResult;
 
@@ -49,8 +51,11 @@ namespace DemonChicken
 
             mover = Entity.AddComponent(new Mover());
             animator = Entity.AddComponent(new SpriteAnimator());
-            collider = Entity.AddComponent(new BoxCollider(-7, 48, 12, 8));
-            health = Entity.AddComponent(new Health(600));
+            movementCollider = Entity.AddComponent(new BoxCollider(-7, 48, 12, 8));
+            interactableCollider = Entity.AddComponent(new CircleCollider(34));
+            interactableCollider.IsTrigger = true;
+            interactableCollider.LocalOffset = new Vector2(0, 48);
+            health = Entity.AddComponent(new Health(44));
             
             health.OnDeath += OnDeath;
             animator.RenderLayer = 0;
@@ -77,14 +82,34 @@ namespace DemonChicken
             UpdateState();
             UpdateAnimation();
             CheckInteractables();
-            
-            //Console.WriteLine(collider.Bounds.y);
-            if (Input.IsKeyPressed(Keys.X)) health.Damage(20);
+
+            if (Input.IsKeyPressed(Keys.X)) health.Damage(100);
+
+            if (interactableCollider.CollidesWithAny(out var collision))
+            {
+                if (Input.IsKeyPressed(Keys.Z))
+                {
+                    if (collision.Collider.Entity.HasComponent<Interactable>())
+                    {
+                        Console.WriteLine("Colliding with interactable");
+                        if (collision.Collider.Entity.Name == "Scythe")
+                        {
+                            
+                        }
+                    }
+                }
+            }
+
+            GameManager.PlayerHealth = health.CurrentHealth;
         }
         
         private void OnDeath()
         {
             playerState = PlayerState.Dead;
+
+            /*var sound = Entity.Scene.Content.LoadSoundEffect(@"Content\Audio\koreagarequiem.wav");
+            var inst = sound.CreateInstance();
+            inst.Play();*/
         }
 
         /// <summary>
@@ -292,6 +317,12 @@ namespace DemonChicken
             {
                 animator.Play(PlayerState.Running.ToString(), SpriteAnimator.LoopMode.Loop);
             }
+        }
+
+        
+        private void ResetDeath()
+        {
+            //TODO: Check every update for death, if so proceed to reset player position and state 
         }
     }
 }
