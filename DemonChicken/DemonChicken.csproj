@@ -33,6 +33,21 @@
         <Content Update="Content\Tilemaps\SexChamber.tmx">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
+        <Content Update="Content\Textures\ChickenExplosion.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Update="Content\Textures\DemonChicken.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Update="Content\Textures\DemonChicken.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Update="Content\Textures\ChickenShadow.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Update="Content\Tilemaps\Chicken_Map.tmx">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
     
     <!-- Include the Content directory (except for .fx files, since we use .fxb at runtime) -->

@@ -7,22 +7,19 @@ using System.Threading.Tasks;
 
 namespace DemonChicken
 {
+    public delegate void EventHandler();
     class Health : Component
     {
-        public int MaxHealth { get; private set; }
+        public int MaxHealth { get; set; }
         public int CurrentHealth { get; private set; }
-
+        public event EventHandler OnDeath;
+        
         public Health()
         {
             MaxHealth = 100;
             CurrentHealth = MaxHealth;
         }
-        public Health(int maxHealth, int currentHealth)
-        {
-            MaxHealth = MaxHealth;
-            CurrentHealth = currentHealth;
-        }
-
+        
         public Health(int maxHealth)
         {
             MaxHealth = maxHealth;
@@ -38,6 +35,7 @@ namespace DemonChicken
             CurrentHealth -= amount;
 
             CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
+            CheckDeath();
         }
 
         /// <summary>
@@ -49,6 +47,14 @@ namespace DemonChicken
             CurrentHealth += amount;
 
             CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
+        }
+
+        private void CheckDeath()
+        {
+            if (CurrentHealth <= 0)
+            {
+                OnDeath();
+            }
         }
     }
 }

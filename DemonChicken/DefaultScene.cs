@@ -1,6 +1,8 @@
+using System;
 using DemonChicken;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using Nez;
 using Nez.Sprites;
 
@@ -22,18 +24,25 @@ namespace DemonChicken
 #endif 
 
             var player = CreateEntity("Player");
-                player.SetPosition(100, 100)
+                player.SetPosition(1606, 1650)
                     .AddComponent(new PlayerController());
             player.UpdateOrder = 0;
 
+            var playerShadow = CreateEntity("Player_Shadow");
+            var playerShadowTex = Content.LoadTexture(@"Content\Textures\ChickenShadow.png");
+            playerShadow.Transform.Position = playerShadow.Transform.Position;
+            playerShadow.Transform.LocalPosition = new Vector2(0, 56);
+            playerShadow.AddComponent(new SpriteRenderer(playerShadowTex))
+                .Transform.SetParent(player.Transform);
+
             Camera.AddComponent(new FollowCamera(player));
-            Camera.GetComponent<FollowCamera>().FollowLerp = 0.02f;
+            Camera.GetComponent<FollowCamera>().FollowLerp = 0.04f;
             Camera.UpdateOrder = 1;
 
             var tilemap = CreateEntity("tilemap");
-            var mapData = Content.LoadTiledMap(@"Content\Tilemaps\SexChamber.tm");
-            var tiledMapRenderer = tilemap.AddComponent(new TiledMapRenderer(mapData, "Walls", true));
-            tiledMapRenderer.SetLayersToRender(new[] {"Walls", "Floor"});
+            var mapData = Content.LoadTiledMap(@"Content\Tilemaps\Chicken_Map.tmx");
+            var tiledMapRenderer = tilemap.AddComponent(new TiledMapRenderer(mapData, "Building", true));
+            tiledMapRenderer.SetLayersToRender(new[] {"Ground2", "Lava", "Shade", "Building", "Building Top", "Wall", "Wall Tops"});
 
             tiledMapRenderer.RenderLayer = 10;
         }
